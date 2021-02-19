@@ -1,2 +1,2 @@
-# Vinyla
+# Vanyla
 Vinyl shop using MERN Stack
