@@ -1,3 +1,3 @@
 {
-    "dbConnection": "YOUR_DATABASE_URI",
+    "dbConnection": "mongodb+srv://vanylacluster.6gy4r.mongodb.net/myFirstDatabase"
     }

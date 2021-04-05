@@ -1,7 +1,8 @@
-const { Router } = require('express');
-const itemController = require('../controllers/itemControllers');
-const router = Router;
+const express = require('express');
+const router = express.Router();
+const itemController = require('../../controllers/itemControllers');
 
+router.get('/', (req, res) => res.send('Item working'));
 router.get('/items', itemController.get_items);
 router.post('/items', itemController.post_item);
 router.put('/items/:id', itemController.update_item);

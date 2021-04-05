@@ -15,21 +15,21 @@ const ItemSchema = new Schema({
     },
     category: {
         type: String,
-        required: True
+        required: true
     },
     format: {
         type: String
     },
     date: {
         type: Date
-    }
+    },
     price: {
         type: Number,
-        required: True
+        required: true
     },
     availability: {
         type: Boolean,
-        required: True
+        required: true
     },
 });
 
