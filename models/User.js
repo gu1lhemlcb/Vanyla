@@ -20,6 +20,7 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         lowercase: true,
+        unique: true,
         validate: [isEmail, 'Please enter a valid email address']
     },
     password: {
@@ -31,6 +32,9 @@ const UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    profile_picture: {
+        type: String
+    }
 });
 
 module.exports = User = mongoose.model('user',UserSchema);

@@ -3,7 +3,8 @@ const path = require('path');
 const connectDB = require('./config/db');
 
 const app = express();
-app.use(express.json());
+//Middleware init
+app.use(express.json({ extended: false }));
 
 // Check connexion to DB and ensure the API is running
 connectDB();
