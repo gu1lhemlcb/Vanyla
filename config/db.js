@@ -5,7 +5,7 @@ const dbConnection = config.get('dbConnection');
 const connectDB = async() => {
     try {
         await mongoose.connect(dbConnection, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
-        console.log('Db connected')
+        console.log('DATABASE CONNECTED');
     } catch(err) {
         console.log(err.message);
         process.exit(1)
