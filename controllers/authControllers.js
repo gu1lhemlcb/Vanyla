@@ -5,6 +5,8 @@ const jwtSecretToken = config.get('jwtSecretToken');
 const { body, validationResult } = require("express-validator");
 var bcrypt = require("bcrypt");
 
+const user = require('../models/User');
+
 module.exports.sign_up = async (req, res) => {
   const { first_name, last_name, pseudo_name, email, password } = req.body;
 
@@ -74,9 +76,16 @@ module.exports.login = async (req, res) => {
     .then((isMatch) => {
         if(!isMatch) return res.status(400).json({ msg: 'Please ensure your password correct'})
 
+        const payload = {
+          user: {
+            id : user._id, // See mongoose _id field in the collection
+            email: user.email
+          }
+        }
+
         jwt.sign(
-            { id: user._id},
-            config.get('jwtSecretToken'),
+            payload,
+            jwtSecretToken,
             { expiresIn: 36000 },
             (err, token) => {
                 if(err) throw err;
@@ -90,44 +99,21 @@ module.exports.login = async (req, res) => {
   });
 };
 
+// module.exports.logout = (req, res) => {
+//   console.log(req.session.user)
+//   if(isSessionActive) {
+//     var isSessionActive = false;
+//   }
+//   res.redirect('/');
+// };
+
 module.exports.get_user = (req, res) => {
-  User.findById(req.user.id)
-      .select('-password')
-      .then(user => res.json(user));
-}
-
-// module.exports.sign_up = (req, res) => {
-//     const { pseudo_name, email, password } = req.body;
-//     if (!pseudo_name || !email || !password) {
-//         res.status(400).json({ msg: 'Please enter all required fields'});
-//     }
-
-//     User.findOne({email}).then((user) => {
-//         if(user) return res.status(400).json({ msg: 'A user already exists with this e-mail address'});
-
-//         const NewUser =  new User({pseudo_name, email, password});
-
-//         bcrypt.genSalt(10, (err, salt) => {
-//             if(err) throw err;
-//             newUser.save()
-//                 .then((user) =>{
-//                     jwt.sign(
-//                         { id: user._id},
-//                         config.get('jwtsecret'),
-//                         { expiresIn: 3600 },
-//                         (err, token) => {
-//                             if(err) throw err;
-//                             res.json({
-//                                 token,
-//                                 user: {
-//                                     id: user._id,
-//                                     pseudo_name: user.pseudo_name,
-//                                     password: user.password
-//                                 }
-//                             });
-//                         }
-//                     )
-//                 });
-//         })
-//     })
-// }
+  try {
+    User.findById(req.user.id)
+        .select('-password')
+        .then(user => res.json(user));  
+  } catch (err) {
+      console.log(err);
+      res.status(500).send("Server error");
+    }
+};

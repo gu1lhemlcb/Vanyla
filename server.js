@@ -12,6 +12,7 @@ app.get('/', (req, res) => res.send('API RUNNING'));
 
 //Routes from url to back-end
 app.use('/auth', require('./routes/api/auth'));
+app.use('/user', require('./routes/api/user_settings'));
 app.use('/item', require('./routes/api/item'));
 app.use('/extra', require('./routes/api/extra'));
 
